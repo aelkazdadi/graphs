@@ -21,5 +21,5 @@ int main(int argc, char **argv) {
 
   getTime(&t2);
   printf("Q_G: %llu\n", Q);
-  printf("Time taken: %Lf\n", timeDiff(&t1, &t2));
+  printf("Time taken: %Lf\n", timeDiff(&t1, &t2)/1000000000.0L);
 }
