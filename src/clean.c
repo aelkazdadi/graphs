@@ -1,10 +1,9 @@
+#include "graph.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "graph.h"
 
-int clean(char *input, char *output)
-{
+void clean(char *input, char *output) {
   printf("%s\n", input);
   printf("%s\n", output);
 
@@ -12,7 +11,7 @@ int clean(char *input, char *output)
   FILE *out = fopen(output, "w");
 
   if (in == NULL || out == NULL)
-    return -1;
+    return ;
 
   char *line = NULL;
   size_t size = 0;
@@ -54,11 +53,6 @@ int clean(char *input, char *output)
   fclose(out);
 
   printf("%lu %lu\n", g->n, g->e);
-
 }
 
-
-int main(int argc, char **argv)
-{
-  clean(argv[1], argv[2]);
-}
+int main(int argc, char **argv) { clean(argv[1], argv[2]); }
