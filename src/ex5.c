@@ -49,6 +49,8 @@ int main(int argc, char **argv) {
 
   getTime(clock + 2);
   printf("Q_G: %llu\n", Q);
-  printf("Time taken: %Lf\n", timeDiff(clock, clock + 1) / 1000000000.0L);
-  printf("Time taken: %Lf\n", timeDiff(clock + 1, clock + 2) / 1000000000.0L);
+  printf("%Lf seconds to build edge and degree lists.\n",
+         timeDiff(clock, clock + 1) / 1000000000.0L);
+  printf("%Lf seconds to calculate Q_G.\n",
+         timeDiff(clock + 1, clock + 2) / 1000000000.0L);
 }
