@@ -8,10 +8,12 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(source ${source}
     src/graph.c
-    src/size.c
-    src/clean.c
+    src/degree.c
+    src/timer.c
 )
 
-add_executable(edgelist src/edgelist.c src/graph.c)
-add_executable(size src/size.c src/graph.c)
-add_executable(clean_data src/clean.c src/graph.c)
+add_executable(edgelist src/edgelist.c ${source})
+add_executable(size src/size.c ${source})
+add_executable(clean_data src/clean.c ${source})
+add_executable(ex4 src/ex4.c ${source})
+add_executable(ex5 src/ex5.c ${source})
