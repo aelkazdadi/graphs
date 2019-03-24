@@ -4,9 +4,9 @@
 #include <string.h>
 #include <time.h>
 
-int compare(const void* a, const void* b) {
-  edge *e1 = (edge *) a;
-  edge *e2 = (edge *) b;
+int compare(const void *a, const void *b) {
+  edge *e1 = (edge *)a;
+  edge *e2 = (edge *)b;
   return 2 * ((e1->s > e2->s) - (e1->s < e2->s)) +
          ((e1->t > e2->t) - (e1->t < e2->t));
 }
@@ -48,7 +48,8 @@ int main(int argc, char **argv) {
   printf("%u comments found.\n", nComments);
 
   // Store edges in memory
-  long unsigned int n = 0;
+  long unsigned int max = 0;
+  long unsigned int min = -1lu;
   long unsigned int e = 0;
 
   edge *edges = malloc(sizeof(edge) * (nLines - nComments));
@@ -58,7 +59,9 @@ int main(int argc, char **argv) {
   scanResult = sscanf(line, "%lu%lu", &s, &t);
   free(line);
   while (scanResult == 2) {
-    n = max3(n, s, t);
+    // Track largest and smallest node indices
+    max = max3(max, s, t);
+    min = min3(min, s, t);
     if (s > t) {
       long unsigned int tmp = s;
       s = t;
@@ -66,15 +69,20 @@ int main(int argc, char **argv) {
     }
     if (s != t) {
       // Discard self loops
-      edges[e].s = s - 1;
-      edges[e].t = t - 1;
+      edges[e].s = s;
+      edges[e].t = t;
       ++e;
     }
     scanResult = fscanf(in, "%lu%lu", &s, &t);
   }
   fclose(in);
-  if (e == 0) return -1;
 
+  printf("Smallest node index: %lu\n", min);
+  printf("Largest node index: %lu\n", max);
+  if (e == 0)
+    return -1;
+
+  printf("%lu nodes, %lu edges found.\n", max - min + 1, e);
   // Free unneeded memory
   edges = realloc(edges, e * sizeof(edge));
 
@@ -83,12 +91,13 @@ int main(int argc, char **argv) {
 
   // Write edges to output file
   FILE *out = fopen(argv[2], "w");
-  fprintf(out, "%lu %lu\n", n, e);
+  fprintf(out, "%lu %lu\n", max - min + 1, e);
 
   fprintf(out, "%lu %lu\n", edges[0].s, edges[0].t);
   for (long unsigned int i = 1; i < e; ++i) {
-    if (compare(edges+i, edges+(i-1)) > 0)
-      fprintf(out, "%lu %lu\n", edges[i].s, edges[i].t);
+    if (compare(edges + i, edges + (i - 1)) > 0) {
+      fprintf(out, "%lu %lu\n", edges[i].s - min, edges[i].t - min);
+    }
   }
   fclose(out);
 }
