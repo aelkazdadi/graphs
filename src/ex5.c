@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
   long long unsigned int Q = 0;
 
   long unsigned int *degrees = malloc(e1 * sizeof(long unsigned int));
-  edgelist *g = malloc(sizeof(edgelist));
+  edgeList *g = malloc(sizeof(edgeList));
   g->n = 0;
   g->e = 0;
   g->edges = malloc(e1*sizeof(edge));

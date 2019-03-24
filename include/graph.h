@@ -8,15 +8,17 @@ typedef struct {
   unsigned long t;
 } edge;
 
+// Graphs are undirected unless otherwise specified
+
 typedef struct {
   unsigned long n; // number of nodes
   unsigned long e; // number of edges
   edge *edges;     // list of edges
-} edgelist;
+} edgeList;
 
 typedef struct {
   unsigned long n; // number of nodes
-  char *rows; // Matrix elements as bits of chars
+  char** rows;      // Matrix elements as bits of chars
 } adjacencyMatrix;
 
 typedef struct {
@@ -32,7 +34,17 @@ inline unsigned long max3(unsigned long a, unsigned long b, unsigned long c) {
   return (a > c) ? a : c;
 }
 
-void free_edgelist(edgelist *g);
-edgelist* readedgelist(char* input);
+inline unsigned long min3(unsigned long a, unsigned long b, unsigned long c) {
+  a = (a < b) ? a : b;
+  return (a < c) ? a : c;
+}
+
+edgeList *readEdgeList(char *input);
+adjacencyArray *readAdjacencyArray(char *input);
+adjacencyMatrix *readAdjacencyMatrix(char *input);
+
+void freeEdgelist(edgeList *g);
+void freeAdjacencyArray(adjacencyArray *g);
+void freeAdjacencyMatrix(adjacencyMatrix *g);
 
 #endif
