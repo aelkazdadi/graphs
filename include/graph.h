@@ -13,7 +13,7 @@ typedef struct {
 typedef struct {
   unsigned long n; // number of nodes
   unsigned long e; // number of edges
-  edge *edges;     // list of edges
+  edge* edges;     // list of edges
 } edgeList;
 
 typedef struct {
@@ -24,8 +24,8 @@ typedef struct {
 typedef struct {
   unsigned long int n;
   unsigned long int e;
-  unsigned long long int *cd;
-  unsigned long int *adj;
+  unsigned long long int* cd;
+  unsigned long int* adj;
 } adjacencyArray;
 
 // compute the maximum of three unsigned long
@@ -39,9 +39,9 @@ inline unsigned long min3(unsigned long a, unsigned long b, unsigned long c) {
   return (a < c) ? a : c;
 }
 
-edgeList *readEdgeList(char *input);
-adjacencyArray *readAdjacencyArray(char *input);
-adjacencyMatrix *readAdjacencyMatrix(char *input);
+edgeList* readEdgeList(char *input);
+adjacencyArray* readAdjacencyArray(char *input);
+adjacencyMatrix* readAdjacencyMatrix(char *input);
 
 void freeEdgelist(edgeList *g);
 void freeAdjacencyArray(adjacencyArray *g);
