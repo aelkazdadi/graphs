@@ -129,5 +129,6 @@ int main(int argc, char **argv) {
       max = sizes.array[i];
     }
   }
-  printf("Largest connected component contains %Lf%% of the nodes\n", 100*((long double)max)/connectedComps.n);
+  printf("Largest connected component contains %Lf%% of the nodes\n",
+         100 * ((long double)max) / connectedComps.n);
 }
