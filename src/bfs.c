@@ -1,3 +1,4 @@
+#include "array.h"
 #include "graph.h"
 #include "timer.h"
 #include <stdio.h>
@@ -49,7 +50,9 @@ void dispQueue(queue *q) {
   }
 }
 
-long unsigned int *connectedComponents(adjacencyArray *g) {
+Array connectedComponents(adjacencyArray *g) {
+  Array out;
+  out.n = g->n;
   long unsigned int *components = malloc(g->n * sizeof(long unsigned int));
   for (long unsigned int i = 0; i < g->n; ++i) {
     components[i] = -1lu;
@@ -60,8 +63,9 @@ long unsigned int *connectedComponents(adjacencyArray *g) {
     ++componentIndex;
     long unsigned int i;
     for (i = 0; i < g->n; ++i) {
-      if (components[i] == -1lu)
+      if (components[i] == -1lu) {
         break;
+      }
     }
     if (i == g->n)
       break;
@@ -82,15 +86,50 @@ long unsigned int *connectedComponents(adjacencyArray *g) {
       }
     }
   }
-  return components;
+  out.array = components;
+  return out;
+}
+
+Array componentSize(Array components) {
+  Array sizes;
+  long unsigned int m = -1lu;
+  long unsigned int M = 0;
+  for (unsigned long int i = 0; i < components.n; ++i) {
+    unsigned long int k = components.array[i];
+    m = (m < k) ? m : k;
+    M = (M > k) ? M : k;
+  }
+  printf("%lu connected components\n", M);
+  sizes.n = M + 1;
+  sizes.array = calloc(sizes.n, sizeof(long unsigned int));
+
+  for (unsigned long int i = 0; i < components.n; ++i) {
+    ++(sizes.array[components.array[i]]);
+  }
+
+  return sizes;
 }
 
 int main(int argc, char **argv) {
   adjacencyArray *g = readAdjacencyArray(argv[1]);
-  long unsigned int *connctedComps = connectedComponents(g);
-  int h = 100;
-  for (int i = 0; i < h; ++i) {
-    printf("%lu ", connctedComps[i]);
+  Array connectedComps = connectedComponents(g);
+  freeAdjacencyArray(g);
+
+  int h = 10;
+  printf("Head of component labels\n");
+  for (long unsigned int i = 0; (i < h) && (i < connectedComps.n); ++i) {
+    printf("%lu : %lu\n", i, connectedComps.array[i]);
   }
   printf("\n");
+
+  Array sizes = componentSize(connectedComps);
+  long unsigned max = 0;
+  long unsigned maxIndex = 0;
+  for (long unsigned i = 0; (i < sizes.n); ++i) {
+    if (sizes.array[i] > max) {
+      maxIndex = i;
+      max = sizes.array[i];
+    }
+  }
+  printf("Largest connected component contains %Lf%% of the nodes\n", 100*((long double)max)/connectedComps.n);
 }

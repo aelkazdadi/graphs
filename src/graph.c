@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "array.h"
 #include "degree.h"
 #include <stdio.h>
 #include <stdlib.h>
