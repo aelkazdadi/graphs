@@ -12,7 +12,7 @@ set(source ${source}
     src/timer.c
 )
 
-add_executable(edgelist src/edgelist.c ${source})
+add_executable(load_structures src/load_structures.c ${source})
 add_executable(size src/size.c ${source})
 add_executable(clean_data src/clean.c ${source})
 add_executable(ex4 src/ex4.c ${source})
