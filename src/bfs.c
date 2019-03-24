@@ -59,14 +59,12 @@ Array connectedComponents(adjacencyArray *g) {
   }
 
   long unsigned int componentIndex = -1lu;
+  long unsigned int i = 0;
   while (1) {
     ++componentIndex;
-    long unsigned int i;
-    for (i = 0; i < g->n; ++i) {
-      if (components[i] == -1lu) {
-        break;
-      }
-    }
+    while (i < g->n && components[i] != -1lu)
+      ++i;
+
     if (i == g->n)
       break;
     components[i] = componentIndex;
