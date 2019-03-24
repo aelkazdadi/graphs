@@ -62,13 +62,6 @@ adjacencyMatrix* readAdjacencyMatrix(char* input) {
     g->rows[t][sBlock] |= bits[sPos];
   }
 
-  /* for (long unsigned int i = 0; i < g->n; ++i) { */
-  /*   for (long unsigned int j = 0; j < nBlocks; ++j) { */
-  /*     printf("%u ", g->rows[i][j]); */
-  /*   } */
-  /*   printf("\n"); */
-  /* } */
-
   return g;
 }
 
