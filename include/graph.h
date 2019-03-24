@@ -14,6 +14,18 @@ typedef struct {
   edge *edges;     // list of edges
 } edgelist;
 
+typedef struct {
+  unsigned long n; // number of nodes
+  char *rows; // Matrix elements as bits of chars
+} adjacencyMatrix;
+
+typedef struct {
+  unsigned long int n;
+  unsigned long int e;
+  unsigned long long int *cd;
+  unsigned long int *adj;
+} adjacencyArray;
+
 // compute the maximum of three unsigned long
 inline unsigned long max3(unsigned long a, unsigned long b, unsigned long c) {
   a = (a > b) ? a : b;
