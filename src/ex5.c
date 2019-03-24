@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
   edgeList *g = malloc(sizeof(edgeList));
   g->n = 0;
   g->e = 0;
-  g->edges = malloc(e1*sizeof(edge));
+  g->edges = malloc(e1 * sizeof(edge));
   while (fscanf(file, "%lu%lu", &s, &t) == 2) {
     g->n = max3(g->n, s, t);
     --s;
@@ -42,8 +42,7 @@ int main(int argc, char **argv) {
   fclose(file);
   getTime(clock + 1);
 
-  for (long unsigned int i = 0; i < g->e; ++i)
-  {
+  for (long unsigned int i = 0; i < g->e; ++i) {
     Q += degrees[g->edges[i].s] * degrees[g->edges[i].t];
   }
 

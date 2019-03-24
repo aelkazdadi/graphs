@@ -4,12 +4,13 @@
 #include <stdlib.h>
 
 // reading the edge list from file
-edgeList* readEdgeList(char* input) {
-  FILE* file = fopen(input, "r");
+edgeList *readEdgeList(char *input) {
+  FILE *file = fopen(input, "r");
 
-  edgeList* g = malloc(sizeof(edgeList));
+  edgeList *g = malloc(sizeof(edgeList));
 
-  if (fscanf(file, "%lu%lu", &(g->n), &(g->e)) != 2) return g;
+  if (fscanf(file, "%lu%lu", &(g->n), &(g->e)) != 2)
+    return g;
 
   g->edges = malloc(g->e * sizeof(edge)); // allocate some RAM to store edges
 
@@ -27,9 +28,9 @@ edgeList* readEdgeList(char* input) {
   return g;
 }
 
-adjacencyMatrix* readAdjacencyMatrix(char* input) {
-  FILE* file = fopen(input, "r");
-  adjacencyMatrix* g = malloc(sizeof(adjacencyMatrix));
+adjacencyMatrix *readAdjacencyMatrix(char *input) {
+  FILE *file = fopen(input, "r");
+  adjacencyMatrix *g = malloc(sizeof(adjacencyMatrix));
 
   unsigned char bits[8];
   bits[0] = 1 << 0;
@@ -44,7 +45,8 @@ adjacencyMatrix* readAdjacencyMatrix(char* input) {
   long unsigned s;
   long unsigned t;
 
-  if (fscanf(file, "%lu%lu", &(g->n), &s) != 2) return g;
+  if (fscanf(file, "%lu%lu", &(g->n), &s) != 2)
+    return g;
   g->rows = malloc((g->n) * sizeof(char *));
 
   long unsigned int nBlocks = ((g->n) >> 3) + 1;
@@ -67,17 +69,19 @@ adjacencyMatrix* readAdjacencyMatrix(char* input) {
   return g;
 }
 
-adjacencyArray* readAdjacencyArray(char* input) {
-  FILE* file = fopen(input, "r");
-  adjacencyArray* g = malloc(sizeof(adjacencyArray));
-  if (fscanf(file, "%lu%lu", &(g->n), &(g->e)) != 2) return g;
+adjacencyArray *readAdjacencyArray(char *input) {
+  FILE *file = fopen(input, "r");
+  adjacencyArray *g = malloc(sizeof(adjacencyArray));
+  if (fscanf(file, "%lu%lu", &(g->n), &(g->e)) != 2)
+    return g;
   g->cd = malloc((g->n + 1) * sizeof(unsigned long long int));
-  g->adj = malloc(2*(g->e) * sizeof(unsigned long long int));
+  g->adj = malloc(2 * (g->e) * sizeof(unsigned long long int));
 
   long unsigned s;
   long unsigned t;
 
-  long unsigned int *degrees = getDegrees(input)->degrees;
+  degreeList *degList = getDegrees(input);
+  long unsigned int *degrees = degList->degrees;
 
   g->cd[0] = 0ll;
   for (long unsigned int i = 0; i < g->n; ++i) {
@@ -92,10 +96,11 @@ adjacencyArray* readAdjacencyArray(char* input) {
     ++degrees[t];
   }
   fclose(file);
+  freeDegreeList(degList);
   return g;
 }
 
-void freeAdjacencyMatrix(adjacencyMatrix* g) {
+void freeAdjacencyMatrix(adjacencyMatrix *g) {
   for (long unsigned int i = 0; i < g->n; ++i) {
     free(g->rows[i]);
   }
@@ -103,7 +108,7 @@ void freeAdjacencyMatrix(adjacencyMatrix* g) {
   free(g);
 }
 
-void freeEdgelist(edgeList* g) {
+void freeEdgelist(edgeList *g) {
   free(g->edges);
   free(g);
 }
