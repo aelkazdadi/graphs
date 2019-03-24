@@ -93,7 +93,7 @@ int main(int argc, char **argv) {
   FILE *out = fopen(argv[2], "w");
   fprintf(out, "%lu %lu\n", max - min + 1, e);
 
-  fprintf(out, "%lu %lu\n", edges[0].s, edges[0].t);
+  fprintf(out, "%lu %lu\n", edges[0].s - min, edges[0].t - min);
   for (long unsigned int i = 1; i < e; ++i) {
     if (compare(edges + i, edges + (i - 1)) > 0) {
       fprintf(out, "%lu %lu\n", edges[i].s - min, edges[i].t - min);
