@@ -1,6 +1,5 @@
 #include <locale.h>
 #include <stdio.h>
-#include <time.h> //to estimate the runing time
 #include "timer.h"
 #include "graph.h"
 
