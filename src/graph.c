@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "degree.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -62,6 +63,35 @@ adjacencyMatrix* readAdjacencyMatrix(char* input) {
     g->rows[t][sBlock] |= bits[sPos];
   }
 
+  fclose(file);
+  return g;
+}
+
+adjacencyArray* readAdjacencyArray(char* input) {
+  FILE* file = fopen(input, "r");
+  adjacencyArray* g = malloc(sizeof(adjacencyArray));
+  if (fscanf(file, "%lu%lu", &(g->n), &(g->e)) != 2) return g;
+  g->cd = malloc((g->n + 1) * sizeof(unsigned long long int));
+  g->adj = malloc(2*(g->e) * sizeof(unsigned long long int));
+
+  long unsigned s;
+  long unsigned t;
+
+  long unsigned int *degrees = getDegrees(input)->degrees;
+
+  g->cd[0] = 0ll;
+  for (long unsigned int i = 0; i < g->n; ++i) {
+    g->cd[i + 1] = g->cd[i] + degrees[i];
+    degrees[i] = 0;
+  }
+
+  while (fscanf(file, "%lu%lu", &s, &t) == 2) {
+    g->adj[g->cd[s] + degrees[s]] = t;
+    g->adj[g->cd[t] + degrees[t]] = s;
+    ++degrees[s];
+    ++degrees[t];
+  }
+  fclose(file);
   return g;
 }
 
