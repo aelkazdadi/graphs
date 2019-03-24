@@ -3,25 +3,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-degreeList *getDegrees(char *input) {
+Array *getDegrees(char *input) {
   FILE *file = fopen(input, "r");
 
-  degreeList *out = malloc(sizeof(degreeList));
+  Array *out = malloc(sizeof(Array));
 
   unsigned long int tmp;
   if (fscanf(file, "%lu%lu", &(out->n), &tmp) != 2)
     return NULL;
 
-  out->degrees = calloc((out->n), sizeof(unsigned long int));
+  out->array = calloc((out->n), sizeof(unsigned long int));
 
   unsigned long int s, t = 0;
   while (fscanf(file, "%lu%lu", &s, &t) == 2) {
-    ++(out->degrees[s]);
-    ++(out->degrees[t]);
+    ++(out->array[s]);
+    ++(out->array[t]);
   }
   fclose(file);
 
   return out;
 }
 
-void freeDegreeList(degreeList *degrees) { free(degrees->degrees); }
+void freeDegreeList(Array *degrees) { free(degrees->array); }

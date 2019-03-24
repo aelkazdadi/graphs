@@ -3,9 +3,9 @@
 
 typedef struct {
   long unsigned int n;
-  long unsigned int *degrees;
-} degreeList;
+  long unsigned int *array;
+} Array;
 
-degreeList *getDegrees(char *input);
-void freeDegreeList(degreeList *degrees);
+Array *getDegrees(char *input);
+void freeDegreeList(Array *degrees);
 #endif

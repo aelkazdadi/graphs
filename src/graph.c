@@ -80,8 +80,8 @@ adjacencyArray *readAdjacencyArray(char *input) {
   long unsigned s;
   long unsigned t;
 
-  degreeList *degList = getDegrees(input);
-  long unsigned int *degrees = degList->degrees;
+  Array *degList = getDegrees(input);
+  long unsigned int *degrees = degList->array;
 
   g->cd[0] = 0ll;
   for (long unsigned int i = 0; i < g->n; ++i) {
@@ -105,6 +105,12 @@ void freeAdjacencyMatrix(adjacencyMatrix *g) {
     free(g->rows[i]);
   }
   free(g->rows);
+  free(g);
+}
+
+void freeAdjacencyArray(adjacencyArray *g) {
+  free(g->adj);
+  free(g->cd);
   free(g);
 }
 
