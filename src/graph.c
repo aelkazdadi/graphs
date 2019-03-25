@@ -42,7 +42,6 @@ void checkOrder(char *input) {
   }
 }
 
-
 edgeList *readEdgeList(char *input) {
   FILE *file = fopen(input, "r");
 
@@ -66,7 +65,6 @@ edgeList *readEdgeList(char *input) {
 
   return g;
 }
-
 
 adjacencyMatrix *readAdjacencyMatrix(char *input) {
   FILE *file = fopen(input, "r");
@@ -109,7 +107,6 @@ adjacencyMatrix *readAdjacencyMatrix(char *input) {
   return g;
 }
 
-
 adjacencyArray *readAdjacencyArray(char *input) {
   FILE *file = fopen(input, "r");
   adjacencyArray *g = malloc(sizeof(adjacencyArray));
@@ -140,7 +137,6 @@ adjacencyArray *readAdjacencyArray(char *input) {
   freeDegreeList(degList);
   return g;
 }
-
 
 adjacencyArray *readDirected(char *input) {
   FILE *file = fopen(input, "r");
@@ -197,12 +193,14 @@ adjacencyArray *readDirected(char *input) {
     ++g->e;
   }
   ++g->n;
+  while (currentNode < g->n) {
+    g->cd[++currentNode] = cumDegree;
+  }
   g->adj = realloc(g->adj, g->e * sizeof(long unsigned int));
   g->cd = realloc(g->cd, (g->n + 1) * sizeof(long unsigned int));
 
   return g;
 }
-
 
 void freeAdjacencyMatrix(adjacencyMatrix *g) {
   for (long unsigned int i = 0; i < g->n; ++i) {
@@ -212,13 +210,11 @@ void freeAdjacencyMatrix(adjacencyMatrix *g) {
   free(g);
 }
 
-
 void freeAdjacencyArray(adjacencyArray *g) {
   free(g->adj);
   free(g->cd);
   free(g);
 }
-
 
 void freeEdgelist(edgeList *g) {
   free(g->edges);
