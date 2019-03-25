@@ -10,6 +10,6 @@ long long unsigned int timeDiff(struct timespec *t1, struct timespec *t2) {
 
 void dispTime(struct timespec *t, unsigned int n) {
   for (unsigned int i = 0; i < n; ++i) {
-    printf("%Lf\n", timeDiff(t + 2*i, t + 2*i + 1) / NSEC_IN_SEC);
+    printf("%Lf\n", timeDiff(t + i, t + i + 1) / NSEC_IN_SEC);
   }
 }
