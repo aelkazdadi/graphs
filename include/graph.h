@@ -55,6 +55,17 @@ edgeList *readEdgeList(char *input);
 adjacencyArray *readAdjacencyArray(char *input);
 adjacencyMatrix *readAdjacencyMatrix(char *input);
 
+/*
+ * Files containing edges of directed graphs are assumed to have the following
+ * format:
+ *  - Any number of lines of comments prefixed by '#'
+ *  - One empty line
+ *  - Edges in the format {u v} sorted lexicographically
+ */
+
+// read directed file of edges as adjacency array
+adjacencyArray *readDirected(char *input);
+
 void freeEdgelist(edgeList *g);
 void freeAdjacencyArray(adjacencyArray *g);
 void freeAdjacencyMatrix(adjacencyMatrix *g);

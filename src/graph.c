@@ -141,6 +141,69 @@ adjacencyArray *readAdjacencyArray(char *input) {
   return g;
 }
 
+
+adjacencyArray *readDirected(char *input) {
+  FILE *file = fopen(input, "r");
+
+  // Count lines in input file
+  char command[10000];
+  strcpy(command, "wc -l ");
+  strcat(command, input);
+  char buffer[128];
+  FILE *fp;
+  fp = popen(command, "r");
+  long unsigned int nLines;
+  if (fgets(buffer, 128, fp) != NULL) {
+    nLines = strtoul(buffer, NULL, 10);
+  }
+  pclose(fp);
+
+  // Count comments
+  char *line = NULL;
+  size_t size = 0;
+  ssize_t getLineResult;
+  int scanResult;
+
+  unsigned int nComments = -1;
+  FILE *in = fopen(input, "r");
+
+  do {
+    getLineResult = getline(&line, &size, in);
+    ++nComments;
+  } while (getLineResult > 0 && line[0] == '#');
+  printf("%u comments found.\n", nComments);
+
+  adjacencyArray *g = malloc(sizeof(adjacencyArray));
+  g->n = 0;
+  g->e = 0;
+  g->adj = malloc((nLines - nComments - 1) * sizeof(long unsigned int));
+
+  // We assume there are more nodes than edges, which is valid in the case
+  // of the wikipedia dataset.
+  g->cd = malloc((nLines - nComments - 1) * sizeof(long long unsigned int));
+  g->cd[0] = 0;
+
+  long unsigned s, t = 0;
+  long unsigned int currentNode = 0;
+  long long unsigned int cumDegree = 0;
+
+  while (fscanf(in, "%lu%lu", &s, &t) == 2) {
+    while (currentNode < s) {
+      g->cd[++currentNode] = cumDegree;
+    }
+    g->n = max3(g->n, s, t);
+    g->adj[cumDegree] = t;
+    ++cumDegree;
+    ++g->e;
+  }
+  ++g->n;
+  g->adj = realloc(g->adj, g->e * sizeof(long unsigned int));
+  g->cd = realloc(g->cd, (g->n + 1) * sizeof(long unsigned int));
+
+  return g;
+}
+
+
 void freeAdjacencyMatrix(adjacencyMatrix *g) {
   for (long unsigned int i = 0; i < g->n; ++i) {
     free(g->rows[i]);
