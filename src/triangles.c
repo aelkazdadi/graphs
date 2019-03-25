@@ -38,7 +38,7 @@ triangleArray getTriangles(adjacencyArray *g) {
 
   for (long unsigned int i = 0; i < g->n; ++i) {
     sortedNodes.array[i].node = i;
-    sortedNodes.array[i].degree = g->cd[i+1] - g->cd[i];
+    sortedNodes.array[i].degree = g->cd[i + 1] - g->cd[i];
   }
   qsort(sortedNodes.array, g->n, sizeof(ndPair), compare);
   return out;
