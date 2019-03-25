@@ -4,13 +4,6 @@
 #include <string.h>
 #include <time.h>
 
-int compare(const void *a, const void *b) {
-  edge *e1 = (edge *)a;
-  edge *e2 = (edge *)b;
-  return 2 * ((e1->s > e2->s) - (e1->s < e2->s)) +
-         ((e1->t > e2->t) - (e1->t < e2->t));
-}
-
 int main(int argc, char **argv) {
   printf("Input file: %s\n", argv[1]);
   printf("Output file: %s\n", argv[2]);
@@ -87,7 +80,7 @@ int main(int argc, char **argv) {
   edges = realloc(edges, e * sizeof(edge));
 
   // Sort edges
-  qsort(edges, e, sizeof(edge), compare);
+  qsort(edges, e, sizeof(edge), compareEdges);
 
   // Write edges to output file
   FILE *out = fopen(argv[2], "w");
@@ -95,7 +88,7 @@ int main(int argc, char **argv) {
 
   fprintf(out, "%lu %lu\n", edges[0].s - min, edges[0].t - min);
   for (long unsigned int i = 1; i < e; ++i) {
-    if (compare(edges + i, edges + (i - 1)) > 0) {
+    if (compareEdges(edges + i, edges + (i - 1)) > 0) {
       fprintf(out, "%lu %lu\n", edges[i].s - min, edges[i].t - min);
     }
   }

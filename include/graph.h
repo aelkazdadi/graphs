@@ -39,6 +39,18 @@ inline unsigned long min3(unsigned long a, unsigned long b, unsigned long c) {
   return (a < c) ? a : c;
 }
 
+int compareEdges(const void *a, const void *b);
+
+void checkOrder(char *input);
+
+/*
+ * Cleaned files for undirected edges are assumed to have the following
+ * format:
+ * - One line containing the number of nodes and edges in the format {V E}
+ * - E lines of edges in the format {u v} sorted lexicographically
+ */
+
+// read undirected cleaned files of edges
 edgeList *readEdgeList(char *input);
 adjacencyArray *readAdjacencyArray(char *input);
 adjacencyMatrix *readAdjacencyMatrix(char *input);

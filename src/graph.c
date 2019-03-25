@@ -3,8 +3,46 @@
 #include "degree.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-// reading the edge list from file
+int compareEdges(const void *a, const void *b) {
+  edge *e1 = (edge *)a;
+  edge *e2 = (edge *)b;
+  return 2 * ((e1->s > e2->s) - (e1->s < e2->s)) +
+         ((e1->t > e2->t) - (e1->t < e2->t));
+}
+
+void checkOrder(char *input) {
+  FILE *file = fopen(input, "r");
+
+  // Count comments
+  char *line = NULL;
+  size_t size = 0;
+  ssize_t getLineResult;
+  int scanResult;
+
+  unsigned int nComments = -1;
+  FILE *in = fopen(input, "r");
+
+  do {
+    getLineResult = getline(&line, &size, in);
+    ++nComments;
+  } while (getLineResult > 0 && line[0] == '#');
+  printf("%u comments found.\n", nComments);
+
+  edge old;
+  edge new;
+
+  if (!(sscanf(line, "%lu%lu", &(old.s), &(old.t)) == 2))
+    scanResult = fscanf(in, "%lu%lu", &(old.s), &(old.t));
+
+  while (fscanf(in, "%lu%lu", &(new.s), &(new.t)) == 2) {
+    if (compareEdges(&old, &new) >= 0)
+      printf("%lu %lu\n", new.s, new.t);
+  }
+}
+
+
 edgeList *readEdgeList(char *input) {
   FILE *file = fopen(input, "r");
 
@@ -13,7 +51,7 @@ edgeList *readEdgeList(char *input) {
   if (fscanf(file, "%lu%lu", &(g->n), &(g->e)) != 2)
     return g;
 
-  g->edges = malloc(g->e * sizeof(edge)); // allocate some RAM to store edges
+  g->edges = malloc(g->e * sizeof(edge));
 
   long unsigned int i = 0;
   long unsigned int s = 0;
@@ -28,6 +66,7 @@ edgeList *readEdgeList(char *input) {
 
   return g;
 }
+
 
 adjacencyMatrix *readAdjacencyMatrix(char *input) {
   FILE *file = fopen(input, "r");
@@ -70,6 +109,7 @@ adjacencyMatrix *readAdjacencyMatrix(char *input) {
   return g;
 }
 
+
 adjacencyArray *readAdjacencyArray(char *input) {
   FILE *file = fopen(input, "r");
   adjacencyArray *g = malloc(sizeof(adjacencyArray));
@@ -109,11 +149,13 @@ void freeAdjacencyMatrix(adjacencyMatrix *g) {
   free(g);
 }
 
+
 void freeAdjacencyArray(adjacencyArray *g) {
   free(g->adj);
   free(g->cd);
   free(g);
 }
+
 
 void freeEdgelist(edgeList *g) {
   free(g->edges);
