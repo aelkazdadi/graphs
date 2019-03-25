@@ -115,8 +115,8 @@ adjacencyArray *readAdjacencyArray(char *input) {
   adjacencyArray *g = malloc(sizeof(adjacencyArray));
   if (fscanf(file, "%lu%lu", &(g->n), &(g->e)) != 2)
     return g;
-  g->cd = malloc((g->n + 1) * sizeof(unsigned long long int));
-  g->adj = malloc(2 * (g->e) * sizeof(unsigned long long int));
+  g->cd = malloc((g->n + 1) * sizeof(unsigned long int));
+  g->adj = malloc(2 * (g->e) * sizeof(unsigned long int));
 
   long unsigned s;
   long unsigned t;
@@ -180,12 +180,12 @@ adjacencyArray *readDirected(char *input) {
 
   // We assume there are more nodes than edges, which is valid in the case
   // of the wikipedia dataset.
-  g->cd = malloc((nLines - nComments - 1) * sizeof(long long unsigned int));
+  g->cd = malloc((nLines - nComments - 1) * sizeof(long unsigned int));
   g->cd[0] = 0;
 
   long unsigned s, t = 0;
   long unsigned int currentNode = 0;
-  long long unsigned int cumDegree = 0;
+  long unsigned int cumDegree = 0;
 
   while (fscanf(in, "%lu%lu", &s, &t) == 2) {
     while (currentNode < s) {

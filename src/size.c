@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-long long unsigned int getSize(char *input) {
+long unsigned int getSize(char *input) {
   FILE *file = fopen(input, "r");
   char *line = NULL;
   size_t size = 0;
@@ -11,7 +11,7 @@ long long unsigned int getSize(char *input) {
   int scanResult;
 
   unsigned int nComments = 0;
-  long long unsigned int nEdges = 0;
+  long unsigned int nEdges = 0;
 
   if (file == NULL)
     return 0;
@@ -36,5 +36,5 @@ long long unsigned int getSize(char *input) {
 
 int main(int argc, char **argv) {
   setlocale(LC_ALL, "");
-  printf("%llu edges.\n", getSize(argv[1]));
+  printf("%lu edges.\n", getSize(argv[1]));
 }

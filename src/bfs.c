@@ -76,7 +76,7 @@ Array connectedComponents(adjacencyArray *g) {
 
     while (list.last != NULL) {
       long unsigned int s = pop(&list);
-      for (long long unsigned int j = g->cd[s]; j < g->cd[s + 1]; ++j) {
+      for (long unsigned int j = g->cd[s]; j < g->cd[s + 1]; ++j) {
         if (components[g->adj[j]] == -1) {
           add(&list, g->adj[j]);
           components[g->adj[j]] = componentIndex;

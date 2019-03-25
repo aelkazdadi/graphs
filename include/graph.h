@@ -21,10 +21,15 @@ typedef struct {
   char **rows;     // Matrix elements as bits of chars
 } adjacencyMatrix;
 
+/*
+ * We assume the number of edges, along with their duplicates, in the case of
+ * undirected graphs, can fit inside an unsigned long int.
+ */
+
 typedef struct {
   unsigned long int n;
   unsigned long int e;
-  unsigned long long int *cd;
+  unsigned long int *cd;
   unsigned long int *adj;
 } adjacencyArray;
 
