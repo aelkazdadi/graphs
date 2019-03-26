@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 project (Graph)
-include_directories(~/RO/include)
+include_directories(include)
 
 set(CMAKE_BUILD_TYPE RelWithDebInfo)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
