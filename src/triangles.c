@@ -33,6 +33,7 @@ int compare(const void *a, const void *b) {
 triangleArray getTriangles(adjacencyArray *g) {
   triangleArray out;
   ndArray sortedNodes;
+  // FIXME: Array.array has type long unsigned int *
   sortedNodes.n = g->n;
   sortedNodes.array = malloc(g->n * sizeof(ndPair));
 
