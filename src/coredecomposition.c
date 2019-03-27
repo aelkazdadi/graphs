@@ -72,7 +72,7 @@ long unsigned int *coreDecomposition(adjacencyArray *g) {
     for (unsigned long j = neighborStart; j < neighborEnd; ++j) {
       long unsigned int neighbor = g->adj[j];
       if (!removed[neighbor]) {
-        long unsigned int neighborDegree = g->cd[neighbor + 1] - g->cd[neighbor];
+        long unsigned int neighborDegree = orderedNodes[invOrd[neighbor]].d;
 
         long unsigned int first = firstIndex[neighborDegree];
         long unsigned int index = invOrd[neighbor];
