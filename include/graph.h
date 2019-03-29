@@ -2,8 +2,9 @@
 #define GRAPH_H
 
 #define NLINKS 100000000lu
-#define fixedInt uint32_t
 #include <inttypes.h>
+
+typedef uint32_t fixedInt;
 
 typedef struct {
   fixedInt s;

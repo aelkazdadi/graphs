@@ -2,7 +2,6 @@
 #include "timer.h"
 #include <locale.h>
 #include <stdio.h>
-#include <inttypes.h>
 
 int main(int argc, char **argv) {
   setlocale(LC_ALL, "");
