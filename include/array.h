@@ -1,9 +1,11 @@
 #ifndef ARRAY_h
 #define ARRAY_h
 
+#include "graph.h"
+
 typedef struct {
-  long unsigned int n;
-  long unsigned int *array;
+  fixedInt n;
+  fixedInt *array;
 } Array;
 
 #endif

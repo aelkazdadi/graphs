@@ -16,12 +16,12 @@ int main(int argc, char **argv) {
   char buffer[128];
   FILE *fp;
   fp = popen(command, "r");
-  long unsigned int nLines;
+  fixedInt nLines;
   if (fgets(buffer, 128, fp) != NULL) {
     nLines = strtoul(buffer, NULL, 10);
   }
   pclose(fp);
-  printf("%lu lines found.\n", nLines);
+  printf("%u lines found.\n", nLines);
 
   // Count comments
   char *line = NULL;
@@ -41,22 +41,22 @@ int main(int argc, char **argv) {
   printf("%u comments found.\n", nComments);
 
   // Store edges in memory
-  long unsigned int max = 0;
-  long unsigned int min = -1lu;
-  long unsigned int e = 0;
+  fixedInt max = 0;
+  fixedInt min = -1u;
+  fixedInt e = 0;
 
   edge *edges = malloc(sizeof(edge) * (nLines - nComments));
 
-  long unsigned s, t = 0;
+  fixedInt s, t = 0;
 
-  scanResult = sscanf(line, "%lu%lu", &s, &t);
+  scanResult = sscanf(line, "%u%u", &s, &t);
   free(line);
   while (scanResult == 2) {
     // Track largest and smallest node indices
     max = max3(max, s, t);
     min = min3(min, s, t);
     if (s > t) {
-      long unsigned int tmp = s;
+      fixedInt tmp = s;
       s = t;
       t = tmp;
     }
@@ -66,16 +66,16 @@ int main(int argc, char **argv) {
       edges[e].t = t;
       ++e;
     }
-    scanResult = fscanf(in, "%lu%lu", &s, &t);
+    scanResult = fscanf(in, "%u%u", &s, &t);
   }
   fclose(in);
 
-  printf("Smallest node index: %lu\n", min);
-  printf("Largest node index: %lu\n", max);
+  printf("Smallest node index: %u\n", min);
+  printf("Largest node index: %u\n", max);
   if (e == 0)
     return -1;
 
-  printf("%lu nodes, %lu edges found.\n", max - min + 1, e);
+  printf("%u nodes, %u edges found.\n", max - min + 1, e);
   // Free unneeded memory
   edges = realloc(edges, e * sizeof(edge));
 
@@ -84,12 +84,12 @@ int main(int argc, char **argv) {
 
   // Write edges to output file
   FILE *out = fopen(argv[2], "w");
-  fprintf(out, "%lu %lu\n", max - min + 1, e);
+  fprintf(out, "%u %u\n", max - min + 1, e);
 
-  fprintf(out, "%lu %lu\n", edges[0].s - min, edges[0].t - min);
-  for (long unsigned int i = 1; i < e; ++i) {
+  fprintf(out, "%u %u\n", edges[0].s - min, edges[0].t - min);
+  for (fixedInt i = 1; i < e; ++i) {
     if (compareEdges(edges + i, edges + (i - 1)) > 0) {
-      fprintf(out, "%lu %lu\n", edges[i].s - min, edges[i].t - min);
+      fprintf(out, "%u %u\n", edges[i].s - min, edges[i].t - min);
     }
   }
   fclose(out);

@@ -5,12 +5,12 @@
 #include <stdlib.h>
 
 typedef struct QUEUE {
-  long unsigned int node;
+  fixedInt node;
   struct QUEUE *next;
   struct QUEUE *last;
 } queue;
 
-void add(queue *q, long unsigned int node) {
+void add(queue *q, fixedInt node) {
   if (q->last) {
     queue *last = malloc(sizeof(queue));
     last->next = NULL;
@@ -26,8 +26,8 @@ void add(queue *q, long unsigned int node) {
   }
 }
 
-long unsigned int pop(queue *q) {
-  long unsigned int out;
+fixedInt pop(queue *q) {
+  fixedInt out;
   out = q->node;
   if (q->next) {
     queue *next = q->next;
@@ -43,7 +43,7 @@ long unsigned int pop(queue *q) {
 
 void dispQueue(queue *q) {
   if (q->last) {
-    printf("%lu ", q->node);
+    printf("%u ", q->node);
     if (q->next) {
       dispQueue(q->next);
     }
@@ -53,16 +53,16 @@ void dispQueue(queue *q) {
 Array connectedComponents(adjacencyArray *g) {
   Array out;
   out.n = g->n;
-  long unsigned int *components = malloc(g->n * sizeof(long unsigned int));
-  for (long unsigned int i = 0; i < g->n; ++i) {
-    components[i] = -1lu;
+  fixedInt *components = malloc(g->n * sizeof(fixedInt));
+  for (fixedInt i = 0; i < g->n; ++i) {
+    components[i] = -1u;
   }
 
-  long unsigned int componentIndex = -1lu;
-  long unsigned int i = 0;
+  fixedInt componentIndex = -1u;
+  fixedInt i = 0;
   while (1) {
     ++componentIndex;
-    while (i < g->n && components[i] != -1lu)
+    while (i < g->n && components[i] != -1u)
       ++i;
 
     if (i == g->n)
@@ -75,8 +75,8 @@ Array connectedComponents(adjacencyArray *g) {
     list.last = &list;
 
     while (list.last != NULL) {
-      long unsigned int s = pop(&list);
-      for (long unsigned int j = g->cd[s]; j < g->cd[s + 1]; ++j) {
+      fixedInt s = pop(&list);
+      for (fixedInt j = g->cd[s]; j < g->cd[s + 1]; ++j) {
         if (components[g->adj[j]] == -1) {
           add(&list, g->adj[j]);
           components[g->adj[j]] = componentIndex;
@@ -90,18 +90,18 @@ Array connectedComponents(adjacencyArray *g) {
 
 Array componentSize(Array components) {
   Array sizes;
-  long unsigned int m = -1lu;
-  long unsigned int M = 0;
-  for (unsigned long int i = 0; i < components.n; ++i) {
-    unsigned long int k = components.array[i];
+  fixedInt m = -1u;
+  fixedInt M = 0;
+  for (fixedInt i = 0; i < components.n; ++i) {
+    fixedInt k = components.array[i];
     m = (m < k) ? m : k;
     M = (M > k) ? M : k;
   }
-  printf("%lu connected components\n", M);
+  printf("%u connected components\n", M);
   sizes.n = M + 1;
-  sizes.array = calloc(sizes.n, sizeof(long unsigned int));
+  sizes.array = calloc(sizes.n, sizeof(fixedInt));
 
-  for (unsigned long int i = 0; i < components.n; ++i) {
+  for (fixedInt i = 0; i < components.n; ++i) {
     ++(sizes.array[components.array[i]]);
   }
 
@@ -115,15 +115,15 @@ int main(int argc, char **argv) {
 
   int h = 10;
   printf("Head of component labels\n");
-  for (long unsigned int i = 0; (i < h) && (i < connectedComps.n); ++i) {
-    printf("%lu : %lu\n", i, connectedComps.array[i]);
+  for (fixedInt i = 0; (i < h) && (i < connectedComps.n); ++i) {
+    printf("%u : %u\n", i, connectedComps.array[i]);
   }
   printf("\n");
 
   Array sizes = componentSize(connectedComps);
-  long unsigned max = 0;
-  long unsigned maxIndex = 0;
-  for (long unsigned i = 0; (i < sizes.n); ++i) {
+  fixedInt max = 0;
+  fixedInt maxIndex = 0;
+  for (fixedInt i = 0; (i < sizes.n); ++i) {
     if (sizes.array[i] > max) {
       maxIndex = i;
       max = sizes.array[i];

@@ -5,15 +5,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void dispVec(double *vec, long unsigned int size) {
-  for (unsigned long int i = 0; i < size; ++i) {
+void dispVec(double *vec, fixedInt size) {
+  for (fixedInt i = 0; i < size; ++i) {
     printf("%.10e\n", vec[i]);
   }
 }
 
-double dist(double *vec1, double *vec2, long unsigned int size) {
+double dist(double *vec1, double *vec2, fixedInt size) {
   double out = 0.;
-  for (unsigned long int i = 0; i < size; ++i) {
+  for (fixedInt i = 0; i < size; ++i) {
     double diff = vec2[i] - vec1[i];
     out += diff * diff;
   }
@@ -26,17 +26,17 @@ void stateTransition(adjacencyArray *g, double alpha, double *vec,
   double alphaComplement = 1. - alpha;
   double sumDeadends = 0.;
 
-  for (long unsigned int i = 0; i < g->n; ++i) {
+  for (fixedInt i = 0; i < g->n; ++i) {
     out[i] = 0.;
   }
 
-  for (long unsigned int i = 0; i < g->n; ++i) {
-    long unsigned int degree = g->cd[i + 1] - g->cd[i];
+  for (fixedInt i = 0; i < g->n; ++i) {
+    fixedInt degree = g->cd[i + 1] - g->cd[i];
 
     if (degree != 0) {
       double coeff = alphaComplement * vec[i] / degree;
 
-      for (long unsigned j = g->cd[i]; j < g->cd[i + 1]; ++j) {
+      for (fixedInt j = g->cd[i]; j < g->cd[i + 1]; ++j) {
         out[g->adj[j]] += coeff;
       }
     } else {
@@ -46,14 +46,14 @@ void stateTransition(adjacencyArray *g, double alpha, double *vec,
 
   double reg = (alphaComplement * sumDeadends + alpha) / (g->n);
   double sum = 0.;
-  for (long unsigned int i = 0; i < g->n; ++i) {
+  for (fixedInt i = 0; i < g->n; ++i) {
     out[i] += reg;
     sum += out[i];
   }
   printf("\nVector sum - 1 : %.10e\n", sum - 1.);
   // normalize
   double shift = (1. - sum) / g->n;
-  for (long unsigned int i = 0; i < g->n; ++i) {
+  for (fixedInt i = 0; i < g->n; ++i) {
     out[i] += shift;
   }
 }
@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
   srand(1);
 
   adjacencyArray *g = readDirected(argv[1]);
-  long unsigned int n = g->n;
+  fixedInt n = g->n;
 
   double alpha = .15;
   double eps = 1e-5;
@@ -71,13 +71,13 @@ int main(int argc, char **argv) {
 
   // Generate a random positive vector and normalize it
   double sum = 0.;
-  for (long unsigned int i = 0; i < n; ++i) {
+  for (fixedInt i = 0; i < n; ++i) {
     next[i] = (double)rand() / RAND_MAX;
     sum += next[i];
   }
   double invSum = 1. / sum;
 
-  for (long unsigned int i = 0; i < n; ++i) {
+  for (fixedInt i = 0; i < n; ++i) {
     next[i] *= invSum;
   }
 

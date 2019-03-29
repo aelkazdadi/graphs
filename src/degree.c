@@ -9,14 +9,14 @@ Array *getDegrees(char *input) {
 
   Array *out = malloc(sizeof(Array));
 
-  unsigned long int tmp;
-  if (fscanf(file, "%lu%lu", &(out->n), &tmp) != 2)
+  fixedInt tmp;
+  if (fscanf(file, "%u%u", &(out->n), &tmp) != 2)
     return NULL;
 
-  out->array = calloc((out->n), sizeof(unsigned long int));
+  out->array = calloc((out->n), sizeof(fixedInt));
 
-  unsigned long int s, t = 0;
-  while (fscanf(file, "%lu%lu", &s, &t) == 2) {
+  fixedInt s, t = 0;
+  while (fscanf(file, "%u%u", &s, &t) == 2) {
     ++(out->array[s]);
     ++(out->array[t]);
   }

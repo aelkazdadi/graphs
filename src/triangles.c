@@ -4,23 +4,23 @@
 #include <stdlib.h>
 
 typedef struct {
-  long unsigned int node;
-  long unsigned int degree;
+  fixedInt node;
+  fixedInt degree;
 } ndPair;
 
 typedef struct {
-  long unsigned int n;
+  fixedInt n;
   ndPair *array;
 } ndArray;
 
 typedef struct {
-  long unsigned int u;
-  long unsigned int v;
-  long unsigned int w;
+  fixedInt u;
+  fixedInt v;
+  fixedInt w;
 } triangle;
 
 typedef struct {
-  long unsigned int n;
+  fixedInt n;
   triangle *array;
 } triangleArray;
 
@@ -33,11 +33,11 @@ int compare(const void *a, const void *b) {
 triangleArray getTriangles(adjacencyArray *g) {
   triangleArray out;
   ndArray sortedNodes;
-  // FIXME: Array.array has type long unsigned int *
+  // FIXME: Array.array has type fixedInt *
   sortedNodes.n = g->n;
   sortedNodes.array = malloc(g->n * sizeof(ndPair));
 
-  for (long unsigned int i = 0; i < g->n; ++i) {
+  for (fixedInt i = 0; i < g->n; ++i) {
     sortedNodes.array[i].node = i;
     sortedNodes.array[i].degree = g->cd[i + 1] - g->cd[i];
   }

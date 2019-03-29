@@ -2,13 +2,14 @@
 #include "timer.h"
 #include <locale.h>
 #include <stdio.h>
+#include <inttypes.h>
 
 int main(int argc, char **argv) {
   setlocale(LC_ALL, "");
 
   struct timespec clock[10];
   // Window size
-  unsigned long int h = 5;
+  fixedInt h = 5;
 
   edgeList *g;
 
@@ -17,15 +18,15 @@ int main(int argc, char **argv) {
   g = readEdgeList(argv[1]);
   getTime(clock + 1);
 
-  printf("%lu nodes\n", g->n);
-  printf("%lu edges\n", g->e);
+  printf("%u nodes\n", g->n);
+  printf("%u edges\n", g->e);
   printf("-----------------------------\n");
 
   printf("Edge list read in %Lf seconds\n",
          timeDiff(clock, clock + 1) / NSEC_IN_SEC);
   printf("Head of edge list:\n");
   for (int i = 0; i < h; ++i) {
-    printf("%lu %lu\n", g->edges[i].s, g->edges[i].t);
+    printf("%u %u\n", g->edges[i].s, g->edges[i].t);
   }
 
   freeEdgelist(g);
@@ -35,14 +36,13 @@ int main(int argc, char **argv) {
   getTime(clock + 1);
   printf("\nAdjacency matrix read in %Lf seconds\n",
          timeDiff(clock, clock + 1) / NSEC_IN_SEC);
-  unsigned long int p = 2;
-  unsigned long int q = 17;
+  fixedInt p = 2;
+  fixedInt q = 17;
   h = 2;
 
-  printf("Matrix rows %lu to %lu, cols %lu to %lu\n", p - h, p + h, q - h,
-         q + h);
-  for (unsigned long int i = p - h; i < p + h + 1; ++i) {
-    for (unsigned long int j = q - h; j < q + h + 1; ++j) {
+  printf("Matrix rows %u to %u, cols %u to %u\n", p - h, p + h, q - h, q + h);
+  for (fixedInt i = p - h; i < p + h + 1; ++i) {
+    for (fixedInt j = q - h; j < q + h + 1; ++j) {
       printf("%u ", ((m->rows[i][j >> 3]) & (1 << (j & 7))) >> (j & 7));
     }
     printf("\n");
@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
     printf("%d : ", i);
     int j;
     for (j = a->cd[i]; (j < a->cd[i] + l) && (j < a->cd[i + 1]); ++j) {
-      printf("%lu ", a->adj[j]);
+      printf("%u ", a->adj[j]);
     }
     if (j < a->cd[i + 1]) {
       printf("...");

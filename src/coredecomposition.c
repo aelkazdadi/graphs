@@ -4,8 +4,8 @@
 #include <stdlib.h>
 
 typedef struct {
-  long unsigned int n;
-  long unsigned int d;
+  fixedInt n;
+  fixedInt d;
 } pair;
 
 int compare(const void *a, const void *b) {
@@ -15,16 +15,16 @@ int compare(const void *a, const void *b) {
   return (u->d > v->d) - (u->d < v->d);
 }
 
-long unsigned int max(long unsigned int a, long unsigned int b) {
+fixedInt max(fixedInt a, fixedInt b) {
   return (a > b) ? a : b;
 }
 
-long unsigned int *coreDecomposition(adjacencyArray *g) {
-  long unsigned int *coreValue = malloc(g->n * sizeof(long unsigned int));
+fixedInt *coreDecomposition(adjacencyArray *g) {
+  fixedInt *coreValue = malloc(g->n * sizeof(fixedInt));
 
   pair *orderedNodes = malloc(g->n * sizeof(pair));
 
-  for (long unsigned int i = 0; i < g->n; ++i) {
+  for (fixedInt i = 0; i < g->n; ++i) {
     orderedNodes[i].n = i;
     orderedNodes[i].d = g->cd[i + 1] - g->cd[i];
   }
@@ -32,15 +32,15 @@ long unsigned int *coreDecomposition(adjacencyArray *g) {
   qsort(orderedNodes, g->n, sizeof(pair), compare);
 
   // Inverse of previous order
-  long unsigned int *invOrd = malloc(g->n * sizeof(long unsigned int));
-  for (long unsigned int i = 0; i < g->n; ++i) {
+  fixedInt *invOrd = malloc(g->n * sizeof(fixedInt));
+  for (fixedInt i = 0; i < g->n; ++i) {
     invOrd[orderedNodes[i].n] = i;
   }
 
   // Index of first appearance of each degree in ordered array of nodes
-  long unsigned int *firstIndex = malloc(g->n * sizeof(long unsigned int));
-  long unsigned int d = 0;
-  long unsigned int i = 0;
+  fixedInt *firstIndex = malloc(g->n * sizeof(fixedInt));
+  fixedInt d = 0;
+  fixedInt i = 0;
 
   firstIndex[0] = 0;
   while (d < g->n && i < g->n) {
@@ -56,26 +56,26 @@ long unsigned int *coreDecomposition(adjacencyArray *g) {
   }
   firstIndex[d] = g->n + 1;
 
-  long unsigned int *removed = calloc(g->n, sizeof(long unsigned int));
+  fixedInt *removed = calloc(g->n, sizeof(fixedInt));
 
-  long unsigned int c = 0;
+  fixedInt c = 0;
   i = 0;
   while (i < g->n) {
-    long unsigned int node = orderedNodes[i].n;
+    fixedInt node = orderedNodes[i].n;
     c = max(c, orderedNodes[i].d);
     // Remove node i from graph
     removed[node] = 1;
     ++firstIndex[orderedNodes[i].d];
 
-    long unsigned int neighborStart = g->cd[node];
-    long unsigned int neighborEnd = g->cd[node + 1];
-    for (unsigned long j = neighborStart; j < neighborEnd; ++j) {
-      long unsigned int neighbor = g->adj[j];
+    fixedInt neighborStart = g->cd[node];
+    fixedInt neighborEnd = g->cd[node + 1];
+    for (fixedInt j = neighborStart; j < neighborEnd; ++j) {
+      fixedInt neighbor = g->adj[j];
       if (!removed[neighbor]) {
-        long unsigned int neighborDegree = orderedNodes[invOrd[neighbor]].d;
+        fixedInt neighborDegree = orderedNodes[invOrd[neighbor]].d;
 
-        long unsigned int first = firstIndex[neighborDegree];
-        long unsigned int index = invOrd[neighbor];
+        fixedInt first = firstIndex[neighborDegree];
+        fixedInt index = invOrd[neighbor];
 
         // Reduce degree of neighbors of i and reorder
         orderedNodes[index].n = orderedNodes[first].n;
@@ -106,5 +106,5 @@ long unsigned int *coreDecomposition(adjacencyArray *g) {
 
 int main(int argc, char **argv) {
   adjacencyArray *g = readAdjacencyArray(argv[1]);
-  long unsigned int *coreValue = coreDecomposition(g);
+  fixedInt *coreValue = coreDecomposition(g);
 }

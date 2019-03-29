@@ -33,12 +33,12 @@ void checkOrder(char *input) {
   edge old;
   edge new;
 
-  if (!(sscanf(line, "%lu%lu", &(old.s), &(old.t)) == 2))
-    scanResult = fscanf(in, "%lu%lu", &(old.s), &(old.t));
+  if (!(sscanf(line, "%u%u", &(old.s), &(old.t)) == 2))
+    scanResult = fscanf(in, "%u%u", &(old.s), &(old.t));
 
-  while (fscanf(in, "%lu%lu", &(new.s), &(new.t)) == 2) {
+  while (fscanf(in, "%u%u", &(new.s), &(new.t)) == 2) {
     if (compareEdges(&old, &new) >= 0)
-      printf("%lu %lu\n", new.s, new.t);
+      printf("%u %u\n", new.s, new.t);
   }
 }
 
@@ -47,15 +47,15 @@ edgeList *readEdgeList(char *input) {
 
   edgeList *g = malloc(sizeof(edgeList));
 
-  if (fscanf(file, "%lu%lu", &(g->n), &(g->e)) != 2)
+  if (fscanf(file, "%u%u", &(g->n), &(g->e)) != 2)
     return g;
 
   g->edges = malloc(g->e * sizeof(edge));
 
-  long unsigned int i = 0;
-  long unsigned int s = 0;
-  long unsigned int t = 0;
-  while (fscanf(file, "%lu%lu", &s, &t) == 2) {
+  fixedInt i = 0;
+  fixedInt s = 0;
+  fixedInt t = 0;
+  while (fscanf(file, "%u%u", &s, &t) == 2) {
     g->edges[i].s = s;
     g->edges[i].t = t;
     ++i;
@@ -80,21 +80,21 @@ adjacencyMatrix *readAdjacencyMatrix(char *input) {
   bits[6] = 1 << 6;
   bits[7] = 1 << 7;
 
-  long unsigned s;
-  long unsigned t;
+  fixedInt s;
+  fixedInt t;
 
-  if (fscanf(file, "%lu%lu", &(g->n), &s) != 2)
+  if (fscanf(file, "%u%u", &(g->n), &s) != 2)
     return g;
   g->rows = malloc((g->n) * sizeof(char *));
 
-  long unsigned int nBlocks = ((g->n) >> 3) + 1;
-  for (long unsigned int i = 0; i < (g->n); ++i) {
+  fixedInt nBlocks = ((g->n) >> 3) + 1;
+  for (fixedInt i = 0; i < (g->n); ++i) {
     g->rows[i] = malloc(sizeof(char) * nBlocks);
   }
 
-  while (fscanf(file, "%lu%lu", &s, &t) == 2) {
-    long unsigned int sBlock = s >> 3;
-    long unsigned int tBlock = t >> 3;
+  while (fscanf(file, "%u%u", &s, &t) == 2) {
+    fixedInt sBlock = s >> 3;
+    fixedInt tBlock = t >> 3;
 
     unsigned char sPos = s & 7;
     unsigned char tPos = t & 7;
@@ -110,24 +110,24 @@ adjacencyMatrix *readAdjacencyMatrix(char *input) {
 adjacencyArray *readAdjacencyArray(char *input) {
   FILE *file = fopen(input, "r");
   adjacencyArray *g = malloc(sizeof(adjacencyArray));
-  if (fscanf(file, "%lu%lu", &(g->n), &(g->e)) != 2)
+  if (fscanf(file, "%u%u", &(g->n), &(g->e)) != 2)
     return g;
-  g->cd = malloc((g->n + 1) * sizeof(unsigned long int));
-  g->adj = malloc(2 * (g->e) * sizeof(unsigned long int));
+  g->cd = malloc((g->n + 1) * sizeof(fixedInt));
+  g->adj = malloc(2 * (g->e) * sizeof(fixedInt));
 
-  long unsigned s;
-  long unsigned t;
+  fixedInt s;
+  fixedInt t;
 
   Array *degList = getDegrees(input);
-  long unsigned int *degrees = degList->array;
+  fixedInt *degrees = degList->array;
 
   g->cd[0] = 0ll;
-  for (long unsigned int i = 0; i < g->n; ++i) {
+  for (fixedInt i = 0; i < g->n; ++i) {
     g->cd[i + 1] = g->cd[i] + degrees[i];
     degrees[i] = 0;
   }
 
-  while (fscanf(file, "%lu%lu", &s, &t) == 2) {
+  while (fscanf(file, "%u%u", &s, &t) == 2) {
     g->adj[g->cd[s] + degrees[s]] = t;
     g->adj[g->cd[t] + degrees[t]] = s;
     ++degrees[s];
@@ -148,7 +148,7 @@ adjacencyArray *readDirected(char *input) {
   char buffer[128];
   FILE *fp;
   fp = popen(command, "r");
-  long unsigned int nLines;
+  fixedInt nLines;
   if (fgets(buffer, 128, fp) != NULL) {
     nLines = strtoul(buffer, NULL, 10);
   }
@@ -172,18 +172,18 @@ adjacencyArray *readDirected(char *input) {
   adjacencyArray *g = malloc(sizeof(adjacencyArray));
   g->n = 0;
   g->e = 0;
-  g->adj = malloc((nLines - nComments - 1) * sizeof(long unsigned int));
+  g->adj = malloc((nLines - nComments - 1) * sizeof(fixedInt));
 
   // We assume there are more nodes than edges, which is valid in the case
   // of the wikipedia dataset.
-  g->cd = malloc((nLines - nComments - 1) * sizeof(long unsigned int));
+  g->cd = malloc((nLines - nComments - 1) * sizeof(fixedInt));
   g->cd[0] = 0;
 
-  long unsigned s, t = 0;
-  long unsigned int currentNode = 0;
-  long unsigned int cumDegree = 0;
+  fixedInt s, t = 0;
+  fixedInt currentNode = 0;
+  fixedInt cumDegree = 0;
 
-  while (fscanf(in, "%lu%lu", &s, &t) == 2) {
+  while (fscanf(in, "%u%u", &s, &t) == 2) {
     while (currentNode < s) {
       g->cd[++currentNode] = cumDegree;
     }
@@ -196,14 +196,14 @@ adjacencyArray *readDirected(char *input) {
   while (currentNode < g->n) {
     g->cd[++currentNode] = cumDegree;
   }
-  g->adj = realloc(g->adj, g->e * sizeof(long unsigned int));
-  g->cd = realloc(g->cd, (g->n + 1) * sizeof(long unsigned int));
+  g->adj = realloc(g->adj, g->e * sizeof(fixedInt));
+  g->cd = realloc(g->cd, (g->n + 1) * sizeof(fixedInt));
 
   return g;
 }
 
 void freeAdjacencyMatrix(adjacencyMatrix *g) {
-  for (long unsigned int i = 0; i < g->n; ++i) {
+  for (fixedInt i = 0; i < g->n; ++i) {
     free(g->rows[i]);
   }
   free(g->rows);

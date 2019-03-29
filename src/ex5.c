@@ -6,21 +6,21 @@
 
 int main(int argc, char **argv) {
   struct timespec *clock = malloc(3 * sizeof(struct timespec));
-  unsigned long e1 = NLINKS;
-  unsigned long n1 = NLINKS;
+  fixedInt e1 = NLINKS;
+  fixedInt n1 = NLINKS;
 
   getTime(clock);
   FILE *file = fopen(argv[1], "r");
 
-  long unsigned int s, t = 0;
+  fixedInt s, t = 0;
   long long unsigned int Q = 0;
 
-  long unsigned int *degrees = malloc(e1 * sizeof(long unsigned int));
+  fixedInt *degrees = malloc(e1 * sizeof(fixedInt));
   edgeList *g = malloc(sizeof(edgeList));
   g->n = 0;
   g->e = 0;
   g->edges = malloc(e1 * sizeof(edge));
-  while (fscanf(file, "%lu%lu", &s, &t) == 2) {
+  while (fscanf(file, "%u%u", &s, &t) == 2) {
     g->n = max3(g->n, s, t);
     --s;
     --t;
@@ -35,14 +35,14 @@ int main(int argc, char **argv) {
     }
     if (g->n == n1) { // increase allocated RAM if needed
       n1 += NLINKS;
-      degrees = realloc(degrees, n1 * sizeof(long unsigned int));
+      degrees = realloc(degrees, n1 * sizeof(fixedInt));
     }
   }
 
   fclose(file);
   getTime(clock + 1);
 
-  for (long unsigned int i = 0; i < g->e; ++i) {
+  for (fixedInt i = 0; i < g->e; ++i) {
     Q += degrees[g->edges[i].s] * degrees[g->edges[i].t];
   }
 

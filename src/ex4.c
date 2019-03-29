@@ -3,8 +3,8 @@
 
 void printDegrees(char *output, Array *degrees) {
   FILE *file = fopen(output, "w");
-  for (unsigned long int i = 0; i < degrees->n; ++i) {
-    fprintf(file, "%lu\n", degrees->array[i]);
+  for (fixedInt i = 0; i < degrees->n; ++i) {
+    fprintf(file, "%u\n", degrees->array[i]);
   }
 }
 

@@ -2,44 +2,47 @@
 #define GRAPH_H
 
 #define NLINKS 100000000lu
+#define fixedInt uint32_t
+#include <inttypes.h>
 
 typedef struct {
-  unsigned long s;
-  unsigned long t;
+  fixedInt s;
+  fixedInt t;
 } edge;
 
 // Graphs are undirected unless otherwise specified
 
 typedef struct {
-  unsigned long n; // number of nodes
-  unsigned long e; // number of edges
+  fixedInt n; // number of nodes
+  fixedInt e; // number of edges
   edge *edges;     // list of edges
 } edgeList;
 
 typedef struct {
-  unsigned long n; // number of nodes
+  fixedInt n; // number of nodes
   char **rows;     // Matrix elements as bits of chars
 } adjacencyMatrix;
 
 /*
  * We assume the number of edges, along with their duplicates, in the case of
- * undirected graphs, can fit inside an unsigned long int.
+ * undirected graphs, can fit inside an fixedInt.
  */
 
 typedef struct {
-  unsigned long int n;
-  unsigned long int e;
-  unsigned long int *cd;
-  unsigned long int *adj;
+  fixedInt n;
+  fixedInt e;
+  fixedInt *cd;
+  fixedInt *adj;
 } adjacencyArray;
 
-// compute the maximum of three unsigned long
-static inline unsigned long max3(unsigned long a, unsigned long b, unsigned long c) {
+// compute the maximum of three fixedInt
+static inline fixedInt max3(fixedInt a, fixedInt b,
+                                     fixedInt c) {
   a = (a > b) ? a : b;
   return (a > c) ? a : c;
 }
 
-static inline unsigned long min3(unsigned long a, unsigned long b, unsigned long c) {
+static inline fixedInt min3(fixedInt a, fixedInt b, fixedInt c) {
   a = (a < b) ? a : b;
   return (a < c) ? a : c;
 }
