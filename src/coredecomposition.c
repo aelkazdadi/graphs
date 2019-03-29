@@ -15,9 +15,7 @@ int compare(const void *a, const void *b) {
   return (u->d > v->d) - (u->d < v->d);
 }
 
-fixedInt max(fixedInt a, fixedInt b) {
-  return (a > b) ? a : b;
-}
+fixedInt max(fixedInt a, fixedInt b) { return (a > b) ? a : b; }
 
 fixedInt *coreDecomposition(adjacencyArray *g) {
   fixedInt *coreValue = malloc(g->n * sizeof(fixedInt));

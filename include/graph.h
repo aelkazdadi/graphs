@@ -14,14 +14,14 @@ typedef struct {
 // Graphs are undirected unless otherwise specified
 
 typedef struct {
-  fixedInt n; // number of nodes
-  fixedInt e; // number of edges
-  edge *edges;     // list of edges
+  fixedInt n;  // number of nodes
+  fixedInt e;  // number of edges
+  edge *edges; // list of edges
 } edgeList;
 
 typedef struct {
-  fixedInt n; // number of nodes
-  char **rows;     // Matrix elements as bits of chars
+  fixedInt n;  // number of nodes
+  char **rows; // Matrix elements as bits of chars
 } adjacencyMatrix;
 
 /*
@@ -37,8 +37,7 @@ typedef struct {
 } adjacencyArray;
 
 // compute the maximum of three fixedInt
-static inline fixedInt max3(fixedInt a, fixedInt b,
-                                     fixedInt c) {
+static inline fixedInt max3(fixedInt a, fixedInt b, fixedInt c) {
   a = (a > b) ? a : b;
   return (a > c) ? a : c;
 }
