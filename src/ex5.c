@@ -15,28 +15,22 @@ int main(int argc, char **argv) {
   fixedInt s, t = 0;
   long long unsigned int Q = 0;
 
-  fixedInt *degrees = malloc(e1 * sizeof(fixedInt));
   edgeList *g = malloc(sizeof(edgeList));
-  g->n = 0;
-  g->e = 0;
-  g->edges = malloc(e1 * sizeof(edge));
+
+  if (fscanf(file, "%u%u", &(g->n), &(g->e)) != 2)
+    return EXIT_FAILURE;
+
+  fixedInt *degrees = malloc(g->n * sizeof(fixedInt));
+  g->edges = malloc(g->e * sizeof(edge));
+
+  fixedInt e = 0;
+
   while (fscanf(file, "%u%u", &s, &t) == 2) {
-    g->n = max3(g->n, s, t);
-    --s;
-    --t;
-    g->edges[g->e].s = s;
-    g->edges[g->e].t = t;
+    g->edges[e].s = s;
+    g->edges[e].t = t;
     ++(degrees[s]);
     ++(degrees[t]);
-
-    if (g->e++ == e1) { // increase allocated RAM if needed
-      e1 += NLINKS;
-      g->edges = realloc(g->edges, e1 * sizeof(edge));
-    }
-    if (g->n == n1) { // increase allocated RAM if needed
-      n1 += NLINKS;
-      degrees = realloc(degrees, n1 * sizeof(fixedInt));
-    }
+    ++e;
   }
 
   fclose(file);
