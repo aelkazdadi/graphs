@@ -109,6 +109,59 @@ Array componentSize(Array components) {
   return sizes;
 }
 
+fixedInt getDiameter(adjacencyArray *g, fixedInt start) {
+  fixedInt diam = 0;
+  fixedInt old_diam;
+
+  unsigned int *visited = malloc(g->n * sizeof(unsigned int));
+  unsigned int c = 3;
+  do {
+    --c;
+    old_diam = diam;
+
+    queue list;
+    list.node = start;
+    list.next = NULL;
+    list.last = &list;
+
+    diam = 0;
+    fixedInt diamCounter = 1;
+    fixedInt nextDiamCounter = 0;
+
+    fixedInt nodesReached = 0;
+
+    for (fixedInt i = 0; i < g->n; ++i) {
+      visited[i] = 0;
+    }
+    visited[start] = 1;
+
+    while (list.last != NULL) {
+      fixedInt s = pop(&list);
+      start = s;
+      ++nodesReached;
+
+      for (fixedInt j = g->cd[s]; j < g->cd[s + 1]; ++j) {
+        fixedInt v = g->adj[j];
+        if (visited[v] == 0) {
+          visited[v] = 1;
+          add(&list, g->adj[j]);
+          ++nextDiamCounter;
+        }
+      }
+
+      --diamCounter;
+      if (diamCounter == 0) {
+        diamCounter = nextDiamCounter;
+        if (nextDiamCounter != 0)
+          ++diam;
+        nextDiamCounter = 0;
+      }
+    }
+  } while (diam != old_diam);
+  printf("Diameter lower bound: %u\n", diam);
+  return diam;
+}
+
 int main(int argc, char **argv) {
   adjacencyArray *g = readAdjacencyArray(argv[1]);
   Array connectedComps = connectedComponents(g);
@@ -125,4 +178,17 @@ int main(int argc, char **argv) {
   }
   printf("Largest connected component contains %Lf%% of the nodes\n",
          100 * ((long double)max) / connectedComps.n);
+
+  fixedInt index;
+  for (fixedInt i = 0; i < connectedComps.n; ++i) {
+    if (connectedComps.array[i] == maxIndex) {
+      index = i;
+      break;
+    }
+  }
+  free(connectedComps.array);
+  free(sizes.array);
+
+  fixedInt diameter = getDiameter(g, index);
+  freeAdjacencyArray(g);
 }
