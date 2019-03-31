@@ -119,6 +119,7 @@ adjacencyArray *readAdjacencyArray(char *input) {
   fixedInt t;
 
   Array *degList = getDegrees(input);
+  printf("Calculated node degrees\n");
   fixedInt *degrees = degList->array;
 
   g->cd[0] = 0ll;
@@ -135,6 +136,7 @@ adjacencyArray *readAdjacencyArray(char *input) {
   }
   fclose(file);
   freeDegreeList(degList);
+  printf("Built adjacency array\n");
   return g;
 }
 
