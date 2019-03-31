@@ -15,7 +15,6 @@ void add(queue *q, fixedInt node) {
     queue *last = malloc(sizeof(queue));
     last->next = NULL;
     last->node = node;
-    last->last = last;
 
     q->last->next = last;
     q->last = last;
@@ -27,13 +26,15 @@ void add(queue *q, fixedInt node) {
 }
 
 fixedInt pop(queue *q) {
-  fixedInt out;
-  out = q->node;
+  fixedInt out = q->node;
   if (q->next) {
     queue *next = q->next;
     q->node = next->node;
     q->next = next->next;
     free(next);
+    if (q->next == NULL) {
+      q->last = q;
+    }
   } else {
     q->next = NULL;
     q->last = NULL;
@@ -111,18 +112,11 @@ Array componentSize(Array components) {
 int main(int argc, char **argv) {
   adjacencyArray *g = readAdjacencyArray(argv[1]);
   Array connectedComps = connectedComponents(g);
-  freeAdjacencyArray(g);
-
-  int h = 10;
-  printf("Head of component labels\n");
-  for (fixedInt i = 0; (i < h) && (i < connectedComps.n); ++i) {
-    printf("%u : %u\n", i, connectedComps.array[i]);
-  }
-  printf("\n");
 
   Array sizes = componentSize(connectedComps);
   fixedInt max = 0;
   fixedInt maxIndex = 0;
+
   for (fixedInt i = 0; (i < sizes.n); ++i) {
     if (sizes.array[i] > max) {
       maxIndex = i;
