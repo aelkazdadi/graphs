@@ -1,47 +1,27 @@
-#include "array.h"
 #include "graph.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 typedef struct {
-  fixedInt node;
-  fixedInt degree;
-} ndPair;
-
-typedef struct {
   fixedInt n;
-  ndPair *array;
-} ndArray;
-
-typedef struct {
-  fixedInt u;
-  fixedInt v;
-  fixedInt w;
-} triangle;
-
-typedef struct {
-  fixedInt n;
-  triangle *array;
-} triangleArray;
+  fixedInt d;
+} pair;
 
 int compare(const void *a, const void *b) {
-  ndPair *m = (ndPair *)a;
-  ndPair *n = (ndPair *)b;
-  return (m->degree < n->degree) - (m->degree > n->degree);
+  pair *m = (pair *)a;
+  pair *n = (pair *)b;
+  return (m->d < n->d) - (m->d > n->d);
 }
 
-triangleArray getTriangles(adjacencyArray *g) {
-  triangleArray out;
-  ndArray sortedNodes;
-  // FIXME: Array.array has type fixedInt *
-  sortedNodes.n = g->n;
-  sortedNodes.array = malloc(g->n * sizeof(ndPair));
+fixedInt* getTriangles(adjacencyArray *g) {
+  fixedInt *out;
+  pair *sortedNodes = malloc(g->n * sizeof(pair));;
 
   for (fixedInt i = 0; i < g->n; ++i) {
-    sortedNodes.array[i].node = i;
-    sortedNodes.array[i].degree = g->cd[i + 1] - g->cd[i];
+    sortedNodes[i].n = i;
+    sortedNodes[i].d = g->cd[i + 1] - g->cd[i];
   }
-  qsort(sortedNodes.array, g->n, sizeof(ndPair), compare);
+  qsort(sortedNodes, g->n, sizeof(pair), compare);
   return out;
 }
 
