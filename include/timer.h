@@ -4,9 +4,9 @@
 
 #include <time.h> //to estimate the runing time
 
-long long unsigned int timeDiff(struct timespec *t1, struct timespec *t2);
+long long unsigned int timeDiff(struct timespec* t1, struct timespec* t2);
 
-void getTime(struct timespec *t);
-void dispTime(struct timespec *t, unsigned int n);
+void getTime(struct timespec* t);
+void dispTime(struct timespec* t, unsigned int n);
 
 #endif

@@ -6,22 +6,25 @@
 
 typedef uint32_t fixedInt;
 
-typedef struct {
-  fixedInt s;
-  fixedInt t;
+typedef struct
+{
+    fixedInt s;
+    fixedInt t;
 } edge;
 
 // Graphs are undirected unless otherwise specified
 
-typedef struct {
-  fixedInt n;  // number of nodes
-  fixedInt e;  // number of edges
-  edge *edges; // list of edges
+typedef struct
+{
+    fixedInt n;  // number of nodes
+    fixedInt e;  // number of edges
+    edge* edges; // list of edges
 } edgeList;
 
-typedef struct {
-  fixedInt n;  // number of nodes
-  char **rows; // Matrix elements as bits of chars
+typedef struct
+{
+    fixedInt n;  // number of nodes
+    char** rows; // Matrix elements as bits of chars
 } adjacencyMatrix;
 
 /*
@@ -29,27 +32,30 @@ typedef struct {
  * undirected graphs, can fit inside an fixedInt.
  */
 
-typedef struct {
-  fixedInt n;
-  fixedInt e;
-  fixedInt *cd;
-  fixedInt *adj;
+typedef struct
+{
+    fixedInt n;
+    fixedInt e;
+    fixedInt* cd;
+    fixedInt* adj;
 } adjacencyArray;
 
 // compute the maximum of three fixedInt
-static inline fixedInt max3(fixedInt a, fixedInt b, fixedInt c) {
-  a = (a > b) ? a : b;
-  return (a > c) ? a : c;
+static inline fixedInt max3(fixedInt a, fixedInt b, fixedInt c)
+{
+    a = (a > b) ? a : b;
+    return (a > c) ? a : c;
 }
 
-static inline fixedInt min3(fixedInt a, fixedInt b, fixedInt c) {
-  a = (a < b) ? a : b;
-  return (a < c) ? a : c;
+static inline fixedInt min3(fixedInt a, fixedInt b, fixedInt c)
+{
+    a = (a < b) ? a : b;
+    return (a < c) ? a : c;
 }
 
-int compareEdges(const void *a, const void *b);
+int compareEdges(const void* a, const void* b);
 
-void checkOrder(char *input);
+void checkOrder(char* input);
 
 /*
  * Cleaned files for undirected edges are assumed to have the following
@@ -59,9 +65,9 @@ void checkOrder(char *input);
  */
 
 // read undirected cleaned files of edges
-edgeList *readEdgeList(char *input);
-adjacencyArray *readAdjacencyArray(char *input);
-adjacencyMatrix *readAdjacencyMatrix(char *input);
+edgeList* readEdgeList(char* input);
+adjacencyArray* readAdjacencyArray(char* input);
+adjacencyMatrix* readAdjacencyMatrix(char* input);
 
 /*
  * Files containing edges of directed graphs are assumed to have the following
@@ -72,10 +78,10 @@ adjacencyMatrix *readAdjacencyMatrix(char *input);
  */
 
 // read directed file of edges as adjacency array
-adjacencyArray *readDirected(char *input);
+adjacencyArray* readDirected(char* input);
 
-void freeEdgelist(edgeList *g);
-void freeAdjacencyArray(adjacencyArray *g);
-void freeAdjacencyMatrix(adjacencyMatrix *g);
+void freeEdgelist(edgeList* g);
+void freeAdjacencyArray(adjacencyArray* g);
+void freeAdjacencyMatrix(adjacencyMatrix* g);
 
 #endif

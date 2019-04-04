@@ -3,9 +3,10 @@
 
 #include "graph.h"
 
-typedef struct {
-  fixedInt n;
-  fixedInt *array;
+typedef struct
+{
+    fixedInt n;
+    fixedInt* array;
 } Array;
 
 #endif
