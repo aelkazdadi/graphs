@@ -1,5 +1,6 @@
 #include "array.h"
 #include "graph.h"
+#include "timer.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -69,6 +70,7 @@ fixedInt* coreDecomposition(adjacencyArray* g)
 
     fixedInt c = 0;
     i = 0;
+    fixedInt m = 0;
     while (i < g->n)
     {
         fixedInt node = orderedNodes[i].n;
@@ -82,11 +84,17 @@ fixedInt* coreDecomposition(adjacencyArray* g)
         for (fixedInt j = neighborStart; j < neighborEnd; ++j)
         {
             fixedInt neighbor = g->adj[j];
+
             if (!removed[neighbor])
             {
                 fixedInt neighborDegree = orderedNodes[invOrd[neighbor]].d;
 
                 fixedInt first = firstIndex[neighborDegree];
+                if (first <= i)
+                {
+                    first = i+1;
+                }
+
                 fixedInt index = invOrd[neighbor];
 
                 // Reduce degree of neighbors of i and reorder
@@ -113,11 +121,18 @@ fixedInt* coreDecomposition(adjacencyArray* g)
 
     free(firstIndex);
     free(orderedNodes);
+    printf("Graph core value: %u\n", c);
     return coreValue;
 }
 
 int main(int argc, char** argv)
 {
+    struct timespec* clock = malloc(2 * sizeof(struct timespec));
     adjacencyArray* g = readAdjacencyArray(argv[1]);
+    getTime(clock);
     fixedInt* coreValue = coreDecomposition(g);
+    getTime(clock + 1);
+    printf("%Lf s to calculate core value.\n",
+           timeDiff(clock, clock + 1) / 1000000000.0L);
+    free(coreValue);
 }
