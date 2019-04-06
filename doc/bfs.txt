@@ -1,24 +1,24 @@
-~/graphs/build/bfs /media/aamr/HDD/data/processed/email-Eu-core.txt
+email-Eu-core.txt
 19 connected components
 Largest connected component contains 98.109453% of the nodes
 Diameter lower bound: 7
 
-~/graphs/build/bfs /media/aamr/HDD/data/processed/com-amazon.ungraph.txt
+com-amazon.ungraph.txt
 213688 connected components
 Largest connected component contains 61.045008% of the nodes
 Diameter lower bound: 47
 
-~/graphs/build/bfs /media/aamr/HDD/data/processed/com-lj.ungraph.txt
+com-lj.ungraph.txt
 38576 connected components
 Largest connected component contains 99.044330% of the nodes
 Diameter lower bound: 21
 
-~/graphs/build/bfs /media/aamr/HDD/data/processed/com-orkut.ungraph.txt
+com-orkut.ungraph.txt
 185 connected components
 Largest connected component contains 99.993979% of the nodes
 Diameter lower bound: 10
 
-~/graphs/build/bfs /media/aamr/HDD/data/processed/com-friendster.ungraph.txt
+com-friendster.ungraph.txt
 59227713 connected components
 Largest connected component contains 52.555613% of the nodes
 Diameter lower bound: 37
