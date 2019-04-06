@@ -1,5 +1,6 @@
 build/*
 compile_commands.json
+.clang-format
 data/*
 **/.ccls-cache/*
 
