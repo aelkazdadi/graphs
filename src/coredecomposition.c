@@ -92,7 +92,7 @@ fixedInt* coreDecomposition(adjacencyArray* g)
                 fixedInt first = firstIndex[neighborDegree];
                 if (first <= i)
                 {
-                    first = i+1;
+                    first = i + 1;
                 }
 
                 fixedInt index = invOrd[neighbor];
