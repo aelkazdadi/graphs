@@ -7,8 +7,6 @@
 int main(int argc, char** argv)
 {
     struct timespec* clock = malloc(3 * sizeof(struct timespec));
-    fixedInt e1 = NLINKS;
-    fixedInt n1 = NLINKS;
 
     getTime(clock);
     FILE* file = fopen(argv[1], "r");
