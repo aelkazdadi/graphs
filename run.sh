@@ -1,7 +1,7 @@
 # {current_dir}/scripts
 scripts_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/scripts"
 mkdir -p "${output_dir}"
-source "${scripts_dir}/init.sh"
+source "./config.sh"
 source "${scripts_dir}/size.sh"
 source "${scripts_dir}/clean.sh"
 source "${scripts_dir}/degree.sh"
