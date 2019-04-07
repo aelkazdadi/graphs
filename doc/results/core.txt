@@ -1,0 +1,15 @@
+email-Eu-core.txt
+Graph core value: 34
+0.000548 s to calculate core value.
+
+com-amazon.ungraph.txt
+Graph core value: 6
+0.167125 s to calculate core value.
+
+com-lj.ungraph.txt
+Graph core value: 360
+4.625723 s to calculate core value.
+
+com-orkut.ungraph.txt
+Graph core value: 253
+16.438648 s to calculate core value.

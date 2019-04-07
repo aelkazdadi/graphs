@@ -1,0 +1,24 @@
+email-Eu-core.txt
+Q_G = 103747042
+0.001894 seconds to build edge and degree lists.
+0.000026 seconds to calculate Q_G.
+
+com-amazon.ungraph.txt
+Q_G = 103415531
+0.136159 seconds to build edge and degree lists.
+0.003211 seconds to calculate Q_G.
+
+com-lj.ungraph.txt
+Q_G = 789000450609
+5.016865 seconds to build edge and degree lists.
+0.126856 seconds to calculate Q_G.
+
+com-orkut.ungraph.txt
+Q_G = 22292678512329
+17.231983 seconds to build edge and degree lists.
+0.430236 seconds to calculate Q_G.
+
+com-friendster.ungraph.txt
+Q_G = 379856554324947
+389.599227 seconds to build edge and degree lists.
+24.310711 seconds to calculate Q_G.
