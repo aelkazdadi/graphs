@@ -3,4 +3,9 @@ compile_commands.json
 .clang-format
 data/*
 **/.ccls-cache/*
-
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.gz
+*.pdf
