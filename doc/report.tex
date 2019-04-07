@@ -2,8 +2,17 @@
 \usepackage[utf8]{inputenc}
 \usepackage[]{graphicx}
 \usepackage{float}
+\usepackage{amsthm}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\newtheorem{algorithm}{Algorithm}
 
 \begin{document}
+\title{RODM}
+\author{Aamr \textsc{El Kazdadi}\\
+        El Mahdi \textsc{Chayti}}
+\date{}
+\maketitle
 \section*{Practical 1}%
 \subsection*{Exercise 2}%
 \label{sub:tp1ex2}
@@ -248,27 +257,208 @@ The PageRank values are positively correlated.
 
 \section*{Practical 3}%
 \label{sec:tp3}
-\subsection*{Exercise 1}%
-\label{sub:tp3ex1}
+\subsection*{Exercise 1}
+
+\begin{figure}[!ht]
+\centering
+\begin{minipage}{.33\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{plots/graph1p=0,9q=0,001.pdf}
+  \caption{p=0.9 q=0.001}
+\end{minipage}%
+\begin{minipage}{.33\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{plots/graph2p=0,8q=0,01.pdf}
+  \caption{p=0.8 q=0.01}
+\end{minipage}
+\begin{minipage}{.33\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{plots/graph3p=0,8q=0,02.pdf}
+  \caption{p=0.8 q=0,02}
+\end{minipage}
+\end{figure}
+
 Increasing $ \frac{p}{q} $ makes the community structure more evident.
 And in the limit case of $ \frac{p}{q} \to 1 $, the communities become
 indistinguishable.
 
-\subsection*{Exercise 2}%
-\label{sub:tp3ex2}
+\subsection*{Exercise 2}
 The label propagation algorithm is implemented as specified in the course.
+We apply the Label propagation algorithm to the first graph to the right, the
+result is in figure \ref{fig:LP}.
 
-\subsection*{Exercise 3}%
-\label{sub:tp3ex3}
-The communities are determined as follows:\\
-For each node, we find the neighbor with minimal degree and require that they
-be in the same community.
-This is repeated until the graph reaches a stable state and communities stop
-changing.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{plots/images1/LabelPropagation.pdf}
+    \caption{Label propagation}
+    \label{fig:LP}
+\end{figure}
+
+We see that it did get it almost right(except for one node).\\
+It took $\approx 0.015$ seconds to classify the four communities on this graph of 400 nodes.
+
+\subsection*{Exercise 3}
+\begin{algorithm}
+Until there is no change in the communities, we shuffle the nodes, and for each
+node, we look for its neighbour that has the minimal degree (we may also look
+only among the neighbours that verify a criterion like number of neighbours
+greater than a threshold) and enforce that they be in the same community, we do
+so until there is no change in the communities.
+\end{algorithm}
 
 The intuition behind is that the nodes who have connections outside their
-community tend to have a greater degree than those with connections limited
-to their own community.
+community tend to have a greater degree than those with connections limited to
+their own community.
 This tends to work well on graphs with clear community structure.
+
+We were inspired by an algorithm called minimal degree that consists in
+maximizing the minimal degree in a community(using local search for example),
+but as it is not evident to optimize such algorithm (need for intelligent local
+updates of some numbers that characterize the community) we used a version that
+mix label propagation and this algorithm.
+
+The result we get when applying this algorithm to the first graph is on figure \ref{fig:mindeg}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{plots/images1/ex3minimalDegree.pdf}
+    \caption{minimal degree algorithm}
+    \label{fig:mindeg}
+\end{figure}
+
+The algorithm performed a perfect community detection here and did better than
+the Label Propagation.\\
+It took $\approx 0.018$ seconds (needs slightly more time compared to Label
+Propagation) to classify the four communities on this graph of 400 nodes.
+
+\subsection*{Exercise 4}
+
+We used the Louvain algorithm%
+\footnote{\url{https://python-louvain.readthedocs.io/en/latest/}}
+and applied it to the first graph, the result is shown in figure
+\ref{fig:louv}.
+\newpage
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{plots/images1/Louvain.pdf}
+    \caption{Louvain algorithm}
+    \label{fig:louv}
+\end{figure}
+
+It took $\approx 0.026$ seconds, it needs more time than the first two
+methods, this is general to bigger graphs.
+
+Let's compare the three methods :
+
+On the amazon graph, Louvain needed \textbf{309 seconds} and found \textbf{242
+communities}, Label Propagation needed \textbf{24.45 seconds} and found
+\textbf{15063 communities} (which is enormous) and minimal Degree needed
+\textbf{17.84 seconds} and found \textbf{86876 communities} (which is even more
+enormous).
+
+This means that the label propagation algorithm and our algorithm
+(minimalDegree) detect more communities than the Louvain algorithm, they get
+stuck in local minima, a solution to overcome this may be to do the same as in
+the louvain algorithm, which is to consider the graph for which the nodes are
+the communities and apply again the two algorithms until a reasonable number
+of communities is found.
+
+An other solution is to use the $min\_degree$ idea, for each node we will set
+its label to the label of its neighbour with the lowest degree among the
+neighbour with degree at least $min\_degree$.
+
+ This is enough proof of the superiority of the Louvain algorithm. But let's
+ see some numbers.
+ We will use the function performance of the quality module of Networkx%
+ \footnote{\url{https://networkx.github.io/documentation/latest/reference/%
+ algorithms/generated/networkx.algorithms.community.quality.performance.html}}
+ which gives : The performance of a partition is the ratio of the number of
+ intra-community edges plus inter-community non-edges with the total number of
+ potential edges.
+
+Let's go back to the random graphs generated above, here is the results
+obtained in the following order. (label propagation - minimal degree - Louvain)
+With size being the number of communities found by the algorithm and perf
+the performance of the algorithm.
+
+\begin{figure}[!ht]
+\centering
+\begin{minipage}{.33\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{plots/images1/LabelPropagation.pdf}
+  \caption*{size:4 perf:0.967}
+\end{minipage}%
+\begin{minipage}{.33\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{plots/images1/ex3minimalDegree.pdf}
+  \caption*{size:4 perf:0.969}
+\end{minipage}
+\begin{minipage}{.33\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{plots/images1/Louvain.pdf}
+  \caption*{size:4 perf:0.969}
+\end{minipage}
+\caption{first graph}
+\end{figure}
+
+
+
+\begin{figure}[!ht]
+\centering
+\begin{minipage}{.33\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{plots/images2/LabelPropagation.pdf}
+  \caption*{size:5 perf:0.921}
+\end{minipage}%
+\begin{minipage}{.33\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{plots/images2/ex3minimalDegree.pdf}
+  \caption*{size:6 perf:0.924 }
+\end{minipage}
+\begin{minipage}{.33\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{plots/images2/Louvain.pdf}
+  \caption*{size: 4 perf: 0.970}
+\end{minipage}
+\caption{second graph}
+\end{figure}
+
+
+\begin{figure}[!ht]
+\centering
+\begin{minipage}{.33\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{plots/images3/LabelPropagation.pdf}
+  \caption*{size:1 perf:0.22}
+\end{minipage}%
+\begin{minipage}{.33\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{plots/images3/ex3minimalDegree.pdf}
+  \caption*{size:1 perf:0.22}
+\end{minipage}
+\begin{minipage}{.33\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{plots/images3/Louvain.pdf}
+  \caption*{size:4 perf:0.970}
+\end{minipage}
+\caption{third graph}
+\end{figure}
+\newpage
+All in all, Louvain is more robust than the other two algorithms, it can detect
+the community structure very well even for graphs that are not very well
+"separated" like the third graph.
+
+By taking the $min\_degree$ parameter to be $\approx qN = 80$ we did better
+with the minimal degree algorithm (performance $\approx$ 0.643), see figure
+\ref{fig:9}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{plots/ex3minimalDegree.pdf}
+    \caption{Minimal degree with min\_degree=80}
+    \label{fig:9}
+\end{figure}
+This shows that using this parameter we can actually hope to get out of bad
+local optima.
 
 \end{document}
