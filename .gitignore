@@ -8,4 +8,5 @@ data/*
 *.fls
 *.log
 *.gz
-*.pdf
+*report.pdf
+*.out
