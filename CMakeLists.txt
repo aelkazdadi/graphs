@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.6)
 project (Graph)
 include_directories(include)
 
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(source ${source}
@@ -13,6 +13,7 @@ set(source ${source}
 
 file(COPY src/ex6.py DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY src/pagerank.py DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY src/community.py DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(load_structures src/load_structures.c ${source})
 add_executable(size src/size.c ${source})
