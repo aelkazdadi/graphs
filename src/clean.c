@@ -78,19 +78,25 @@ int main(int argc, char** argv)
 
     printf("Smallest node index: %u\n", min);
     printf("Largest node index: %u\n", max);
-    if (e == 0)
-        return -1;
 
     printf("%u nodes, %u edges found.\n", max - min + 1, e);
-    // Free unneeded memory
-    edges = realloc(edges, e * sizeof(edge));
 
     // Sort edges
     qsort(edges, e, sizeof(edge), compareEdges);
 
+    // Count number of edges
+    fixedInt n_edges = 1;
+    for (fixedInt i = 1; i < e; ++i)
+    {
+        if (compareEdges(edges + i, edges + (i - 1)) > 0)
+        {
+            ++n_edges;
+        }
+    }
+
     // Write edges to output file
     FILE* out = fopen(argv[2], "w");
-    fprintf(out, "%u %u\n", max - min + 1, e);
+    fprintf(out, "%u %u\n", max - min + 1, n_edges);
 
     fprintf(out, "%u %u\n", edges[0].s - min, edges[0].t - min);
     for (fixedInt i = 1; i < e; ++i)
