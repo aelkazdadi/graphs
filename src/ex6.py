@@ -9,4 +9,5 @@ hist = np.array((hist[1][:-1], hist[0]), dtype=np.int64)
 
 np.savetxt(argv[2], hist.T, fmt='%-1d')
 plt.bar(hist[0], hist[1])
+plt.tight_layout()
 plt.savefig(argv[3])
