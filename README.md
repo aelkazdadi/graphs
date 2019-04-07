@@ -1,11 +1,11 @@
 # Build:
-git clone https://github.com/kazdadi/graphs.git\\
-cd graphs\\
-mkdir build\\
-cd build\\
-cmake ..\\
-make\\
-cd ..\\
+git clone https://github.com/kazdadi/graphs.git  
+cd graphs  
+mkdir build  
+cd build  
+cmake ..  
+make  
+cd ..  
 
 # Instructions:
 Change input and output directories in config.sh
