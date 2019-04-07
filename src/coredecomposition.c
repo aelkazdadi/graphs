@@ -66,7 +66,7 @@ fixedInt* coreDecomposition(adjacencyArray* g)
     }
     firstIndex[d] = g->n + 1;
 
-    fixedInt* removed = calloc(g->n, sizeof(fixedInt));
+    unsigned char* removed = calloc(g->n, sizeof(unsigned char));
 
     fixedInt c = 0;
     i = 0;
@@ -121,13 +121,15 @@ fixedInt* coreDecomposition(adjacencyArray* g)
 
     free(firstIndex);
     free(orderedNodes);
+    free(invOrd);
+    free(removed);
     printf("Graph core value: %u\n", c);
     return coreValue;
 }
 
 int main(int argc, char** argv)
 {
-    struct timespec* clock = malloc(2 * sizeof(struct timespec));
+    struct timespec clock[2];
     adjacencyArray* g = readAdjacencyArray(argv[1]);
     getTime(clock);
     fixedInt* coreValue = coreDecomposition(g);
