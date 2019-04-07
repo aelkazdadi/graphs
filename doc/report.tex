@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+
+\begin{document}
+\section*{Practical 1}%
+\subsection*{Exercise 2}%
+\label{sub:tp1ex2}
+The size of the graph is calculated by iterating over the text file and
+counting the number of lines containing pairs of integers.
+Note that this is to be used on raw graphs, as cleaned ones already contain the
+number of nodes and edges on the first line.
+As a result of this and the fact that we avoid storing the edges in memory, the
+program doesn't account for potential duplicates.
+
+\subsection*{Exercise 3}%
+\label{sub:tp1ex3}
+The program first counts the number of lines using ``wc -l", to tell how much
+memory it should allocate for the edge list, then we iterate over each line
+and add the edges to the list in the correct order.
+(tail is strictly smaller than head)\\
+We then sort the edge list in lexicographical order.
+(the order is based on tail of edge, and in case of equality, on the head of the
+edge)\\
+We iterate over the edge list to count the number of non duplicate edges,
+and write the number of nodes and number of edges to a new text file.\\
+We iterate once again on the list of edges and save them to a new text file,
+skipping over duplicates. Note that node indices are shifted so that they start
+from 0.
+
+\subsection*{Exercise 4}%
+\label{sub:tp1ex4}
+We read the number of nodes and the number of edges from the cleaned files, and
+allocate memory for a list of node degrees
+We iterate over the (cleaned) file of list of edges, and for each edge, we
+increment the degrees of its tail and its head.
+
+
+\end{document}
